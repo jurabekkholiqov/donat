@@ -338,40 +338,17 @@
 
   </main>
 
-  <!-- 🔒 SECRET ADMIN PANEL MODAL -->
-  <div id="admin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="glass-card rounded-3xl max-w-lg w-full p-6 sm:p-8 relative border border-purple-500/40 shadow-2xl transform scale-95 transition-transform duration-300" id="admin-box">
-      <button onclick="closeAdminModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl">✕</button>
-      
-      <div id="admin-auth-view" class="space-y-4">
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-xl mx-auto mb-3">🔒</div>
-          <h3 class="font-space text-xl font-bold text-white">Shaxsiy Admin Paneli</h3>
-          <p class="text-xs text-gray-400 mt-1">Barcha yuborilgan xabarlarni ko'rish uchun PIN kodni kiriting (Standart: <code>2026</code>)</p>
-        </div>
-
-        <div>
-          <input type="password" id="admin-pin" placeholder="PIN kodni kiriting..." class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-center font-mono text-lg focus:outline-none focus:border-purple-500">
-        </div>
-
-        <button onclick="verifyAdminPin()" class="w-full py-3.5 rounded-xl gradient-purple-sunset text-white font-bold text-sm shadow-lg hover:scale-[1.01] transition-transform">
-          🔑 Kirish
-        </button>
+  <!-- 📸 PUBLIC RECEIPT VIEWER MODAL -->
+  <div id="public-receipt-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closePublicReceiptModal()">
+    <div class="relative max-w-lg w-full p-3 bg-purple-950/90 border border-purple-500/40 rounded-3xl overflow-hidden shadow-2xl space-y-3" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-white/10 pb-2 px-2">
+        <h3 class="font-space text-xs font-bold text-white flex items-center space-x-2">
+          <span>📸 Tasdiqlangan To'lov Cheki</span>
+        </h3>
+        <button onclick="closePublicReceiptModal()" class="w-6 h-6 rounded-full bg-rose-500/80 text-white font-bold flex items-center justify-center text-xs">✕</button>
       </div>
-
-      <div id="admin-dashboard-view" class="hidden space-y-4">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
-          <div>
-            <h3 class="font-space text-lg font-bold text-white">📬 Kelgan Xabarlar Inbox</h3>
-            <p class="text-[11px] text-emerald-400">Faqat egalariga ko'rinadigan shaxsiy ro'yxat</p>
-          </div>
-          <button onclick="clearAdminInbox()" class="px-3 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white text-[11px] font-semibold transition-colors">
-            🗑️ Tozalash
-          </button>
-        </div>
-
-        <div id="admin-inbox-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-        </div>
+      <div class="max-h-[70vh] overflow-auto flex items-center justify-center bg-black/40 rounded-2xl p-2 border border-white/5">
+        <img id="public-receipt-img" src="" class="max-w-full max-h-[65vh] object-contain rounded-xl shadow-xl">
       </div>
     </div>
   </div>
@@ -702,79 +679,18 @@
       loadPublicApprovedComments();
     });
 
-    // --- 🔒 SECRET ADMIN PANEL LOGIC ---
-    function openAdminModal() {
-      const modal = document.getElementById('admin-modal');
-      const box = document.getElementById('admin-box');
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      box.classList.remove('scale-95');
-      box.classList.add('scale-100');
+    function viewReceiptModal(msgId) {
+      const approved = getApprovedComments();
+      const item = approved.find(c => c.id === msgId);
+      if (!item || !item.receiptData) return;
+
+      document.getElementById('public-receipt-img').src = item.receiptData;
+      document.getElementById('public-receipt-modal').classList.remove('hidden');
     }
 
-    function closeAdminModal() {
-      const modal = document.getElementById('admin-modal');
-      const box = document.getElementById('admin-box');
-      modal.classList.add('opacity-0', 'pointer-events-none');
-      box.classList.remove('scale-100');
-      box.classList.add('scale-95');
-    }
-
-    function verifyAdminPin() {
-      const pin = document.getElementById('admin-pin').value;
-      if (pin === "2026" || pin === "7777") {
-        document.getElementById('admin-auth-view').classList.add('hidden');
-        document.getElementById('admin-dashboard-view').classList.remove('hidden');
-        loadInboxMessages();
-      } else {
-        alert("❌ Noto'g'ri PIN kod!");
-      }
-    }
-
-    function loadInboxMessages() {
-      const inboxContainer = document.getElementById('admin-inbox-list');
-      if (!inboxContainer) return;
-
-      const inbox = getInbox();
-      if (inbox.length === 0) {
-        inboxContainer.innerHTML = `<div class="text-center text-gray-500 py-6 text-xs">Hozircha xabarlar yo'q.</div>`;
-        return;
-      }
-
-      inboxContainer.innerHTML = '';
-      inbox.forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-1';
-        
-        const headerDiv = document.createElement('div');
-        headerDiv.className = 'flex items-center justify-between text-xs';
-        
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'font-bold text-purple-300';
-        nameSpan.textContent = `👤 ${item.name} (${item.amount})`;
-
-        const dateSpan = document.createElement('span');
-        dateSpan.className = 'text-[10px] text-gray-400';
-        dateSpan.textContent = `${item.date} ${item.time}`;
-
-        headerDiv.appendChild(nameSpan);
-        headerDiv.appendChild(dateSpan);
-
-        const msgP = document.createElement('p');
-        msgP.className = 'text-xs text-gray-200';
-        msgP.textContent = item.message;
-
-        itemDiv.appendChild(headerDiv);
-        itemDiv.appendChild(msgP);
-
-        inboxContainer.appendChild(itemDiv);
-      });
-    }
-
-    function clearAdminInbox() {
-      if (confirm("Rostdan ham barcha kelgan xabarlarni tozalaysizmi?")) {
-        localStorage.removeItem('creator_inbox');
-        loadInboxMessages();
-      }
+    function closePublicReceiptModal() {
+      document.getElementById('public-receipt-modal').classList.add('hidden');
+      document.getElementById('public-receipt-img').src = '';
     }
   </script>
 </body>
