@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 🛡️ SECURITY HEADERS & CSP -->
+  <!-- 🛡️ MILITARY-GRADE SECURITY HEADERS & CSP -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com https://fonts.gstatic.com https://images.unsplash.com; frame-ancestors 'none';">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -50,6 +50,7 @@
       box-shadow: 0 25px 60px rgba(168, 85, 247, 0.25);
     }
 
+    /* Gradients & Glows */
     .gradient-purple-sunset {
       background: linear-gradient(135deg, #7c3aed 0%, #a855f7 40%, #ec4899 75%, #f59e0b 100%);
     }
@@ -72,6 +73,7 @@
       filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.5));
     }
 
+    /* Keyframe Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -96,10 +98,12 @@
       animation: pulseRing 3.5s ease-in-out infinite;
     }
 
+    /* Toast Notification */
     #toast {
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Shimmer Effect */
     .shimmer-btn {
       position: relative;
       overflow: hidden;
@@ -203,13 +207,13 @@
       </div>
     </div>
 
-    <!-- Plastic Cards Section (Fixed Click & Payme URLs) -->
+    <!-- Plastic Cards Section (Direct App Launching for Click & Payme) -->
     <div id="cards-section" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl border border-white/10 relative">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
           <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
             <span>💳 Qo'llab-quvvatlash Kartalari</span>
-            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">Verified Lock</span>
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">App Direct Launch</span>
           </h2>
           <p class="text-xs text-gray-400 mt-1">Kartani bosing — raqam nusxalanadi va ilova avtomatik ochiladi:</p>
         </div>
@@ -235,13 +239,13 @@
           </button>
         </div>
 
-        <!-- Corrected Click & Payme URLs (No 404 Errors) -->
+        <!-- Direct App Launcher Buttons (Direct Mobile App Deep Links) -->
         <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
           <button onclick="openPaymentAppDirect('click', 1)" class="py-2.5 px-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
-            <span>🔵 Click'da To'lash</span>
+            <span>🔵 Click Ilovasini Ochish</span>
           </button>
           <button onclick="openPaymentAppDirect('payme', 1)" class="py-2.5 px-3 rounded-xl bg-teal-500/15 hover:bg-teal-500/30 border border-teal-500/30 text-teal-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
-            <span>🟢 Payme'da To'lash</span>
+            <span>🟢 Payme Ilovasini Ochish</span>
           </button>
         </div>
       </div>
@@ -268,17 +272,17 @@
 
         <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
           <button onclick="openPaymentAppDirect('click', 2)" class="py-2.5 px-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
-            <span>🔵 Click'da To'lash</span>
+            <span>🔵 Click Ilovasini Ochish</span>
           </button>
           <button onclick="openPaymentAppDirect('payme', 2)" class="py-2.5 px-3 rounded-xl bg-teal-500/15 hover:bg-teal-500/30 border border-teal-500/30 text-teal-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
-            <span>🟢 Payme'da To'lash</span>
+            <span>🟢 Payme Ilovasini Ochish</span>
           </button>
         </div>
       </div>
 
     </div>
 
-    <!-- Direct Comment Form (No Telegram Redirect, Saves Directly) -->
+    <!-- Direct Comment Form -->
     <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl border border-white/10">
       <div class="border-b border-white/10 pb-3 flex items-center justify-between">
         <div>
@@ -373,7 +377,6 @@
         </button>
       </div>
 
-      <!-- Secret Inbox Content View (Only visible after PIN entry) -->
       <div id="admin-dashboard-view" class="hidden space-y-4">
         <div class="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
@@ -386,14 +389,12 @@
         </div>
 
         <div id="admin-inbox-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-          <!-- Dynamically populated inbox messages -->
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- 🎨 CANVAS PARTICLES ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -480,24 +481,33 @@
       showToast(`✨ ${cardObj.type} (${cardObj.formatted}) nusxalandi!`);
     }
 
-    // --- 💳 FIXED CLICK & PAYME URLS (NO 404 ERRORS) ---
+    // --- 📱 DIRECT MOBILE APP LAUNCHERS (CLICK & PAYME NATIVE INTENTS) ---
     function openPaymentAppDirect(appType, cardId) {
       const cardObj = AUTHENTIC_CARDS[cardId];
       if (!cardObj) return;
 
-      // Karta raqamini almashinuv buferiga (clipboard) avtomatik nusxalash
+      // 1. Karta raqamini almashinuv buferiga (clipboard) avtomatik nusxalash
       navigator.clipboard.writeText(cardObj.raw);
-      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi! ${appType.toUpperCase()} ochilmoqda...`);
+      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi! ${appType.toUpperCase()} ilovasi ochilmoqda...`);
 
+      // 2. Mobil ilova va brauzer uchun to'g me'ridan-to'g'ri ilovani ishga tushirish (Deep-link & App scheme)
       setTimeout(() => {
         if (appType === 'click') {
-          // Rasmiy 100% ishlovchi Click manzili (404 xatosi bermaydi)
-          window.open('https://my.click.uz/', '_blank', 'noopener,noreferrer');
+          // Click ilovasini mobil telefonda to'g'ridan-to'g'ri ishga tushirish (Native app intent)
+          window.location.href = 'clickuz://';
+          // Fallback: Agar ilova o'rnatilmagan bo'lsa yoki kompyuterda bo'lsa Click bosh sahifasini ochish
+          setTimeout(() => {
+            window.open('https://click.uz', '_blank', 'noopener,noreferrer');
+          }, 1000);
         } else if (appType === 'payme') {
-          // Rasmiy 100% ishlovchi Payme manzili (404 xatosi bermaydi)
-          window.open('https://payme.uz/', '_blank', 'noopener,noreferrer');
+          // Payme ilovasini mobil telefonda to'g'ridan-to'g'ri ishga tushirish (Native app intent)
+          window.location.href = 'payme://';
+          // Fallback: Payme bosh sahifasini ochish
+          setTimeout(() => {
+            window.open('https://payme.uz', '_blank', 'noopener,noreferrer');
+          }, 1000);
         }
-      }, 600);
+      }, 500);
     }
 
     function showToast(message) {
@@ -511,7 +521,7 @@
       setTimeout(() => {
         toast.classList.remove('opacity-100', 'translate-y-0');
         toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
-      }, 3000);
+      }, 3500);
     }
 
     // --- 📥 LOCAL COMMENT SUBMISSION & SECRET INBOX ---
