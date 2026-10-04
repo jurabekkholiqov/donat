@@ -2,7 +2,7 @@
 <html lang="uz" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
   <!-- 🛡️ MILITARY-GRADE SECURITY HEADERS & CSP & NO-CACHE -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com https://fonts.gstatic.com https://images.unsplash.com; frame-ancestors 'none';">
@@ -37,20 +37,20 @@
     /* Cyberpunk Glassmorphism */
     .glass-card {
       background: rgba(23, 15, 38, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     }
 
     .glass-card-hover {
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .glass-card-hover:hover {
-      transform: translateY(-5px);
+      transform: translateY(-3px);
       border-color: rgba(168, 85, 247, 0.4);
-      box-shadow: 0 25px 60px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 20px 45px rgba(168, 85, 247, 0.25);
     }
 
     /* Gradients & Glows */
@@ -69,18 +69,18 @@
     }
 
     .glow-purple {
-      filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
+      filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.45));
     }
 
     .glow-amber {
-      filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.5));
+      filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.45));
     }
 
     /* Keyframe Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(16px);
       }
       to {
         opacity: 1;
@@ -90,11 +90,11 @@
 
     @keyframes pulseRing {
       0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.06); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 1; }
     }
 
     .animate-fade-in {
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .animate-pulse-ring {
@@ -138,83 +138,83 @@
     }
   </script>
 </head>
-<body class="p-4 sm:p-6 md:p-10 flex flex-col items-center justify-center relative selection:bg-purple-500 selection:text-white">
+<body class="p-3 sm:p-6 md:p-10 flex flex-col items-center justify-center relative selection:bg-purple-500 selection:text-white">
 
   <!-- Background Canvas Particles -->
   <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
   <!-- Glowing Orbs -->
-  <div class="fixed top-12 left-1/2 -translate-x-1/2 w-[550px] h-[550px] bg-purple-700/15 rounded-full blur-[150px] pointer-events-none"></div>
-  <div class="fixed bottom-10 right-10 w-96 h-96 bg-amber-600/15 rounded-full blur-[130px] pointer-events-none"></div>
+  <div class="fixed top-12 left-1/2 -translate-x-1/2 w-[350px] sm:w-[550px] h-[350px] sm:h-[550px] bg-purple-700/15 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="fixed bottom-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-amber-600/15 rounded-full blur-[100px] pointer-events-none"></div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3.5 rounded-full bg-purple-600 text-white font-semibold text-sm shadow-2xl border border-purple-400/40 flex items-center space-x-2 opacity-0 pointer-events-none translate-y-[-20px]">
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full bg-purple-600 text-white font-semibold text-xs sm:text-sm shadow-2xl border border-purple-400/40 flex items-center space-x-2 opacity-0 pointer-events-none translate-y-[-20px] max-w-[90vw] text-center">
     <span id="toast-icon">⚡</span>
     <span id="toast-message">Nusxalandi!</span>
   </div>
 
-  <main class="w-full max-w-xl space-y-6 relative z-10 animate-fade-in">
+  <main class="w-full max-w-xl space-y-5 sm:space-y-6 relative z-10 animate-fade-in">
 
     <!-- Profile Header Card -->
-    <div class="glass-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden shadow-2xl border border-white/10">
+    <div class="glass-card rounded-3xl p-5 sm:p-8 text-center relative overflow-hidden shadow-2xl border border-white/10">
       <div class="absolute top-0 left-0 right-0 h-2 gradient-purple-sunset"></div>
 
       <!-- Verified Shield Badge -->
-      <div class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-xs font-semibold text-emerald-300 mb-6">
+      <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] sm:text-xs font-semibold text-emerald-300 mb-5 sm:mb-6">
         <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
         <span>100% Verified Secure Hub</span>
       </div>
 
       <!-- Dual Instagram Avatars -->
-      <div class="flex items-center justify-center -space-x-5 mb-5">
+      <div class="flex items-center justify-center -space-x-4 sm:-space-x-5 mb-5">
         <div class="relative group cursor-pointer">
-          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-purple">
+          <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-purple">
             <div class="w-full h-full rounded-full bg-slate-950 p-[2px] overflow-hidden flex items-center justify-center">
               <img src="images/ai_kholikov.png" alt="ai.kholikov" class="w-full h-full rounded-full object-cover">
             </div>
           </div>
-          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-slate-900 border border-purple-500/40 text-[10px] font-semibold text-purple-300 shadow">
+          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-slate-900 border border-purple-500/40 text-[9px] sm:text-[10px] font-semibold text-purple-300 shadow whitespace-nowrap">
             @ai.kholikov
           </span>
         </div>
 
         <div class="relative group cursor-pointer">
-          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-amber">
+          <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-amber">
             <div class="w-full h-full rounded-full bg-slate-950 p-[2px] overflow-hidden flex items-center justify-center">
               <img src="images/ai_jurabek.png" alt="ai.jurabek" class="w-full h-full rounded-full object-cover">
             </div>
           </div>
-          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-slate-900 border border-amber-500/40 text-[10px] font-semibold text-amber-300 shadow">
+          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-slate-900 border border-amber-500/40 text-[9px] sm:text-[10px] font-semibold text-amber-300 shadow whitespace-nowrap">
             @ai.jurabek
           </span>
         </div>
       </div>
 
       <!-- Account Titles -->
-      <h1 class="font-space text-2xl sm:text-3xl font-extrabold text-white tracking-wide mt-4">
+      <h1 class="font-space text-xl sm:text-3xl font-extrabold text-white tracking-wide mt-4">
         <span class="gradient-text">ai.kholikov</span> & <span class="gradient-text">ai.jurabek</span>
       </h1>
 
-      <p class="text-xs sm:text-sm text-gray-300 mt-3 leading-relaxed max-w-md mx-auto">
+      <p class="text-xs sm:text-sm text-gray-300 mt-2.5 sm:mt-3 leading-relaxed max-w-md mx-auto">
         Assalomu alaykum! Loyihalarimiz, kontentlarimiz va rivojlanishimizni qo'llab-quvvatlash uchun rasmiy sahifa. Har bir e'tibor va yordamingiz uchun chuqur minnatdorchilik bildiramiz! 🚀
       </p>
 
       <!-- Instagram Direct Links -->
-      <div class="flex items-center justify-center space-x-3 mt-6">
-        <a href="https://instagram.com/ai.kholikov" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/25 text-xs font-semibold text-purple-300 border border-purple-500/30 transition-all flex items-center space-x-1.5 shadow">
+      <div class="flex flex-wrap items-center justify-center gap-2.5 mt-5 sm:mt-6">
+        <a href="https://instagram.com/ai.kholikov" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/25 text-xs font-semibold text-purple-300 border border-purple-500/30 transition-all flex items-center space-x-1.5 shadow">
           <span>📷 @ai.kholikov</span>
         </a>
-        <a href="https://instagram.com/ai.jurabek" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/25 text-xs font-semibold text-amber-300 border border-amber-500/30 transition-all flex items-center space-x-1.5 shadow">
+        <a href="https://instagram.com/ai.jurabek" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/25 text-xs font-semibold text-amber-300 border border-amber-500/30 transition-all flex items-center space-x-1.5 shadow">
           <span>📷 @ai.jurabek</span>
         </a>
       </div>
     </div>
 
-    <!-- Plastic Cards Section (Only Card Numbers & 1-Click Copy) -->
-    <div id="cards-section" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl border border-white/10 relative">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+    <!-- Plastic Cards Section (Only Card Numbers & 1-Click Copy - Optimized Mobile Layout) -->
+    <div id="cards-section" class="glass-card rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 shadow-2xl border border-white/10 relative">
+      <div class="flex flex-wrap items-center justify-between border-b border-white/10 pb-4 gap-2">
         <div>
-          <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+          <h2 class="font-space text-base sm:text-lg font-bold text-white flex flex-wrap items-center gap-2">
             <span>💳 Qo'llab-quvvatlash Kartalari</span>
             <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">1-Click Copy</span>
           </h2>
@@ -223,44 +223,44 @@
       </div>
 
       <!-- ASOSIY KARTA: Humo (9860 3501 4277 8231) -->
-      <div id="card1-card" onclick="copyCardDirect(1)" class="glass-card-hover p-5 rounded-2xl bg-white/5 border border-amber-500/40 cursor-pointer transition-all duration-300">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center font-bold text-xs text-amber-300 shadow-inner">
+      <div id="card1-card" onclick="copyCardDirect(1)" class="glass-card-hover p-4 sm:p-5 rounded-2xl bg-white/5 border border-amber-500/40 cursor-pointer transition-all duration-300">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-amber-500/20 border border-amber-500/50 flex-shrink-0 flex items-center justify-center font-bold text-xs text-amber-300 shadow-inner">
               HUMO
             </div>
-            <div>
+            <div class="min-w-0 flex-1">
               <div class="flex items-center space-x-2">
                 <span class="text-xs font-medium text-gray-300">Asosiy Karta</span>
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold uppercase">Humo</span>
               </div>
-              <div id="card1-text" class="font-mono font-bold text-base sm:text-lg text-amber-200 tracking-wider mt-0.5">9860 3501 4277 8231</div>
-              <div class="text-[11px] text-gray-400 mt-0.5">👤 Karta egasi: <strong class="text-gray-200">JURABEK KHOLIKOV</strong></div>
+              <div id="card1-text" class="font-mono font-bold text-sm sm:text-base md:text-lg text-amber-200 tracking-tight sm:tracking-wider mt-0.5 whitespace-nowrap">9860 3501 4277 8231</div>
+              <div class="text-[11px] text-gray-400 mt-0.5 truncate">👤 Karta egasi: <strong class="text-gray-200">JURABEK KHOLIKOV</strong></div>
             </div>
           </div>
-          <button onclick="event.stopPropagation(); copyCardDirect(1);" class="px-4 py-2.5 rounded-xl bg-amber-600/30 hover:bg-amber-600 text-amber-200 hover:text-white text-xs font-bold transition-all shadow flex items-center space-x-1.5 active:scale-95">
+          <button onclick="event.stopPropagation(); copyCardDirect(1);" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-amber-600/30 hover:bg-amber-600 text-amber-200 hover:text-white text-xs font-bold transition-all shadow flex items-center justify-center space-x-1.5 active:scale-95 flex-shrink-0">
             <span>📋 Nusxalash</span>
           </button>
         </div>
       </div>
 
       <!-- QO'SHIMCHA KARTA: Visa (4916 9903 2218 1873) -->
-      <div id="card2-card" onclick="copyCardDirect(2)" class="glass-card-hover p-5 rounded-2xl bg-white/5 border border-purple-500/40 cursor-pointer transition-all duration-300">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="w-11 h-11 rounded-xl bg-purple-500/20 border border-purple-500/50 flex items-center justify-center font-bold text-xs text-purple-300 shadow-inner">
+      <div id="card2-card" onclick="copyCardDirect(2)" class="glass-card-hover p-4 sm:p-5 rounded-2xl bg-white/5 border border-purple-500/40 cursor-pointer transition-all duration-300">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-500/20 border border-purple-500/50 flex-shrink-0 flex items-center justify-center font-bold text-xs text-purple-300 shadow-inner">
               VISA
             </div>
-            <div>
+            <div class="min-w-0 flex-1">
               <div class="flex items-center space-x-2">
                 <span class="text-xs font-medium text-gray-300">Qo'shimcha Karta</span>
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold uppercase">Visa</span>
               </div>
-              <div id="card2-text" class="font-mono font-bold text-base sm:text-lg text-purple-200 tracking-wider mt-0.5">4916 9903 2218 1873</div>
-              <div class="text-[11px] text-gray-400 mt-0.5">👤 Karta egasi: <strong class="text-gray-200">JURABEK KHOLIKOV</strong></div>
+              <div id="card2-text" class="font-mono font-bold text-sm sm:text-base md:text-lg text-purple-200 tracking-tight sm:tracking-wider mt-0.5 whitespace-nowrap">4916 9903 2218 1873</div>
+              <div class="text-[11px] text-gray-400 mt-0.5 truncate">👤 Karta egasi: <strong class="text-gray-200">JURABEK KHOLIKOV</strong></div>
             </div>
           </div>
-          <button onclick="event.stopPropagation(); copyCardDirect(2);" class="px-4 py-2.5 rounded-xl bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all shadow flex items-center space-x-1.5 active:scale-95">
+          <button onclick="event.stopPropagation(); copyCardDirect(2);" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all shadow flex items-center justify-center space-x-1.5 active:scale-95 flex-shrink-0">
             <span>📋 Nusxalash</span>
           </button>
         </div>
@@ -269,10 +269,10 @@
     </div>
 
     <!-- Direct Comment Form -->
-    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl border border-white/10">
+    <div class="glass-card rounded-3xl p-5 sm:p-8 space-y-4 shadow-2xl border border-white/10">
       <div class="border-b border-white/10 pb-3 flex items-center justify-between">
         <div>
-          <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+          <h2 class="font-space text-base sm:text-lg font-bold text-white flex items-center space-x-2">
             <span>✍️ Fikr va Tilak Qoldirish</span>
           </h2>
           <p class="text-xs text-gray-400 mt-1">Xabaringiz saqlanadi va admin tasdiqlagach saytda ko'rinadi!</p>
@@ -313,9 +313,9 @@
     </div>
 
     <!-- Live Wall of Supporters -->
-    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl border border-white/10">
+    <div class="glass-card rounded-3xl p-5 sm:p-8 space-y-4 shadow-2xl border border-white/10">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+        <h2 class="font-space text-base sm:text-lg font-bold text-white flex items-center space-x-2">
           <span>💖 Qo'llab-quvvatlaganlar Xabarlari</span>
           <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30" id="comment-count">0 ta</span>
         </h2>
@@ -372,9 +372,9 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.8 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.4;
-        this.speedY = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 1.6 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
         this.alpha = Math.random() * 0.4 + 0.1;
       }
       update() {
@@ -392,7 +392,8 @@
       }
     }
 
-    for (let i = 0; i < 45; i++) {
+    const particleCount = window.innerWidth < 640 ? 25 : 45;
+    for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle());
     }
 
@@ -430,7 +431,7 @@
       if (container) {
         observer.observe(container, { childList: true, characterData: true, subtree: true, attributes: true });
       }
-      loadInboxMessages();
+      loadPublicApprovedComments();
     });
 
     function copyToClipboardFallback(text) {
@@ -462,50 +463,6 @@
       showToast(`✨ ${cardObj.type} (${cardObj.formatted}) nusxalandi!`);
     }
 
-    // --- 📱 DIRECT MOBILE APP LAUNCHERS (CLICK & PAYME NATIVE INTENTS) ---
-    function openPaymentAppDirect(appType, cardId) {
-      const cardObj = AUTHENTIC_CARDS[cardId];
-      if (!cardObj) return;
-
-      // 1. Karta raqamini almashinuv buferiga (clipboard) darhol nusxalash
-      copyToClipboardFallback(cardObj.raw);
-      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi! ${appType.toUpperCase()} ochilmoqda...`);
-
-      // 2. Qurilma turini aniqlash (Android, iOS yoki Desktop)
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isAndroid = /android/i.test(userAgent);
-      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-
-      // 3. Ilovani darhol ishga tushirish (Hech qanday setTimeout kechikishisiz)
-      if (appType === 'click') {
-        if (isAndroid) {
-          window.location.href = 'intent://#Intent;package=uz.click.mobile;scheme=clickuz;S.browser_fallback_url=https%3A%2F%2Fmy.click.uz;end;';
-        } else if (isIOS) {
-          window.location.href = 'clickuz://';
-          setTimeout(() => {
-            if (!document.hidden) {
-              window.location.href = 'https://my.click.uz/';
-            }
-          }, 1500);
-        } else {
-          window.open('https://my.click.uz/', '_blank', 'noopener,noreferrer');
-        }
-      } else if (appType === 'payme') {
-        if (isAndroid) {
-          window.location.href = 'intent://#Intent;package=uz.paycom.payme;scheme=payme;S.browser_fallback_url=https%3A%2F%2Fpayme.uz;end;';
-        } else if (isIOS) {
-          window.location.href = 'payme://';
-          setTimeout(() => {
-            if (!document.hidden) {
-              window.location.href = 'https://payme.uz/';
-            }
-          }, 1500);
-        } else {
-          window.open('https://payme.uz/', '_blank', 'noopener,noreferrer');
-        }
-      }
-    }
-
     function showToast(message) {
       const toast = document.getElementById('toast');
       const msgElem = document.getElementById('toast-message');
@@ -518,6 +475,8 @@
         toast.classList.remove('opacity-100', 'translate-y-0');
         toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
       }, 3500);
+    }
+
     // --- 🔢 NUMERIC INPUT SANITIZATION ---
     function filterNumericKeys(e) {
       if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
@@ -541,7 +500,6 @@
 
     // --- 📥 RECEIPT PREVIEW & MODERATION SYSTEM ---
     let receiptBase64 = null;
-    let commentCount = 0;
     let lastSubmitTime = 0;
 
     function handleReceiptPreview(e) {
@@ -595,7 +553,8 @@
     function loadPublicApprovedComments() {
       const approved = getApprovedComments();
       const container = document.getElementById('comments-container');
-      document.getElementById('comment-count').innerText = `${approved.length} ta`;
+      const countElem = document.getElementById('comment-count');
+      if (countElem) countElem.innerText = `${approved.length} ta`;
 
       if (approved.length === 0) {
         container.innerHTML = `
@@ -609,11 +568,11 @@
       container.innerHTML = approved.map(item => `
         <div class="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-2 animate-fade-in">
           <div class="flex items-center justify-between">
-            <span class="font-bold text-sm text-purple-300 flex items-center space-x-2">
+            <span class="font-bold text-xs sm:text-sm text-purple-300 flex items-center space-x-2">
               <span>👤 ${escapeHtml(item.name || 'Noma\'lum')}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal">${escapeHtml(item.amount || '0 so\'m')}</span>
+              <span class="text-[9px] sm:text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal">${escapeHtml(item.amount || '0 so\'m')}</span>
             </span>
-            <span class="text-[11px] text-gray-400 font-mono">${item.time || 'Hozirgina'}</span>
+            <span class="text-[10px] sm:text-[11px] text-gray-400 font-mono">${item.time || 'Hozirgina'}</span>
           </div>
           <p class="text-xs text-gray-200 leading-relaxed font-sans">
             "${escapeHtml(item.message || '')}"
@@ -675,10 +634,6 @@
       removeReceiptPreview();
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadPublicApprovedComments();
-    });
-
     function viewReceiptModal(msgId) {
       const approved = getApprovedComments();
       const item = approved.find(c => c.id === msgId);
@@ -691,6 +646,10 @@
     function closePublicReceiptModal() {
       document.getElementById('public-receipt-modal').classList.add('hidden');
       document.getElementById('public-receipt-img').src = '';
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
   </script>
 </body>
