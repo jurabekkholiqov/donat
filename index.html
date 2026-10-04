@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qo'llab-quvvatlash Sahifasi | ai.kholikov & ai.jurabek</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b0614;
+      color: #f3f4f6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .font-space {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Modern Cyberpunk Violet & Amber Glassmorphism */
+    .glass-card {
+      background: rgba(23, 15, 38, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    .glass-card-hover {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card-hover:hover {
+      transform: translateY(-5px);
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 25px 60px rgba(168, 85, 247, 0.25);
+    }
+
+    /* Gradients & Glows */
+    .gradient-purple-sunset {
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 40%, #ec4899 75%, #f59e0b 100%);
+    }
+
+    .gradient-instagram {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #c084fc 0%, #f472b6 50%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glow-purple {
+      filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.45));
+    }
+
+    .glow-amber {
+      filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.45));
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.06); opacity: 0.9; }
+    }
+
+    .animate-fade-in {
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-pulse-ring {
+      animation: pulseRing 3.5s ease-in-out infinite;
+    }
+
+    /* Toast Notification */
+    #toast {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Shimmer Effect */
+    .shimmer-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shimmer-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transform: rotate(30deg);
+      transition: all 0.6s ease;
+      opacity: 0;
+    }
+
+    .shimmer-btn:hover::after {
+      opacity: 1;
+      left: 100%;
+    }
+  </style>
+</head>
+<body class="p-4 sm:p-6 md:p-10 flex flex-col items-center justify-center relative selection:bg-purple-500 selection:text-white">
+
+  <!-- Background Canvas Particles -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Glowing Orbs -->
+  <div class="fixed top-12 left-1/2 -translate-x-1/2 w-[550px] h-[550px] bg-purple-700/15 rounded-full blur-[150px] pointer-events-none"></div>
+  <div class="fixed bottom-10 right-10 w-96 h-96 bg-amber-600/15 rounded-full blur-[130px] pointer-events-none"></div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3.5 rounded-full bg-purple-600 text-white font-semibold text-sm shadow-2xl border border-purple-400/40 flex items-center space-x-2 opacity-0 pointer-events-none translate-y-[-20px]">
+    <span id="toast-icon">⚡</span>
+    <span id="toast-message">Nusxalandi!</span>
+  </div>
+
+  <main class="w-full max-w-xl space-y-6 relative z-10 animate-fade-in">
+
+    <!-- Profile Header Card -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden shadow-2xl border border-white/10">
+      <div class="absolute top-0 left-0 right-0 h-2 gradient-purple-sunset"></div>
+
+      <!-- Verified Badge -->
+      <div class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full bg-purple-500/15 border border-purple-500/30 text-xs font-semibold text-purple-300 mb-6">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+        <span>Instagram Official Support Hub</span>
+      </div>
+
+      <!-- Dual Instagram Avatars (ai.kholikov & ai.jurabek) -->
+      <div class="flex items-center justify-center -space-x-5 mb-5">
+        <!-- Profile 1: ai.kholikov -->
+        <div class="relative group cursor-pointer">
+          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-purple">
+            <div class="w-full h-full rounded-full bg-slate-950 p-[2px] overflow-hidden flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="ai.kholikov" class="w-full h-full rounded-full object-cover">
+            </div>
+          </div>
+          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-slate-900 border border-purple-500/40 text-[10px] font-semibold text-purple-300 shadow">
+            @ai.kholikov
+          </span>
+        </div>
+
+        <!-- Profile 2: ai.jurabek -->
+        <div class="relative group cursor-pointer">
+          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-amber">
+            <div class="w-full h-full rounded-full bg-slate-950 p-[2px] overflow-hidden flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="ai.jurabek" class="w-full h-full rounded-full object-cover">
+            </div>
+          </div>
+          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-slate-900 border border-amber-500/40 text-[10px] font-semibold text-amber-300 shadow">
+            @ai.jurabek
+          </span>
+        </div>
+      </div>
+
+      <!-- Account Titles -->
+      <h1 class="font-space text-2xl sm:text-3xl font-extrabold text-white tracking-wide mt-4">
+        <span class="gradient-text">ai.kholikov</span> & <span class="gradient-text">ai.jurabek</span>
+      </h1>
+
+      <p class="text-xs sm:text-sm text-gray-300 mt-3 leading-relaxed max-w-md mx-auto">
+        Assalomu alaykum! Loyihalarimiz, kontentlarimiz va rivojlanishimizni qo'llab-quvvatlash uchun rasmiy sahifa. Har bir e'tibor va yordamingiz uchun chuqur minnatdorchilik bildiramiz! 🚀
+      </p>
+
+      <!-- Instagram Direct Links -->
+      <div class="flex items-center justify-center space-x-3 mt-6">
+        <a href="https://instagram.com/ai.kholikov" target="_blank" class="px-4 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/25 text-xs font-semibold text-purple-300 border border-purple-500/30 transition-all flex items-center space-x-1.5 shadow">
+          <span>📷 @ai.kholikov</span>
+        </a>
+        <a href="https://instagram.com/ai.jurabek" target="_blank" class="px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/25 text-xs font-semibold text-amber-300 border border-amber-500/30 transition-all flex items-center space-x-1.5 shadow">
+          <span>📷 @ai.jurabek</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Plastic Cards Section (Asosiy: Humo, Qo'shimcha: Visa) -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl border border-white/10 relative">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div>
+          <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+            <span>💳 Qo'llab-quvvatlash Kartalari</span>
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-medium">Protected</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-1">Kartani bosing — raqam nusxalanadi va ilova avtomatik ochiladi:</p>
+        </div>
+      </div>
+
+      <!-- ASOSIY KARTA: Humo (9860 3501 4277 8231) -->
+      <div class="glass-card-hover p-4 rounded-2xl bg-white/5 border border-amber-500/40 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center font-bold text-xs text-amber-300">
+              HUMO
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs font-medium text-gray-300">Asosiy Karta</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold uppercase">Humo</span>
+              </div>
+              <div id="card1-text" class="font-mono font-bold text-sm sm:text-base text-amber-200 tracking-wider">9860 3501 4277 8231</div>
+            </div>
+          </div>
+          <button onclick="copyCard('9860350142778231', 'Asosiy Karta (Humo)')" class="px-3.5 py-2 rounded-xl bg-amber-600/30 hover:bg-amber-600 text-amber-200 hover:text-white text-xs font-semibold transition-all shadow flex items-center space-x-1">
+            <span>📋 Nusxalash</span>
+          </button>
+        </div>
+
+        <!-- Direct App Deep Links for Humo Card -->
+        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
+          <button onclick="openPaymentApp('click', '9860350142778231')" class="py-2.5 px-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
+            <span>🔵 Click'da To'lash</span>
+          </button>
+          <button onclick="openPaymentApp('payme', '9860350142778231')" class="py-2.5 px-3 rounded-xl bg-teal-500/15 hover:bg-teal-500/30 border border-teal-500/30 text-teal-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
+            <span>🟢 Payme'da To'lash</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- QO'SHIMCHA KARTA: Visa (4916 9903 2218 1873) -->
+      <div class="glass-card-hover p-4 rounded-2xl bg-white/5 border border-purple-500/40 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/50 flex items-center justify-center font-bold text-xs text-purple-300">
+              VISA
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs font-medium text-gray-300">Qo'shimcha Karta</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold uppercase">Visa</span>
+              </div>
+              <div id="card2-text" class="font-mono font-bold text-sm sm:text-base text-purple-200 tracking-wider">4916 9903 2218 1873</div>
+            </div>
+          </div>
+          <button onclick="copyCard('4916990322181873', 'Qo\'shimcha Karta (Visa)')" class="px-3.5 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-semibold transition-all shadow flex items-center space-x-1">
+            <span>📋 Nusxalash</span>
+          </button>
+        </div>
+
+        <!-- Direct App Deep Links for Visa Card -->
+        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
+          <button onclick="openPaymentApp('click', '4916990322181873')" class="py-2.5 px-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
+            <span>🔵 Click'da To'lash</span>
+          </button>
+          <button onclick="openPaymentApp('payme', '4916990322181873')" class="py-2.5 px-3 rounded-xl bg-teal-500/15 hover:bg-teal-500/30 border border-teal-500/30 text-teal-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
+            <span>🟢 Payme'da To'lash</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Direct Telegram Sending Form (Faqat "Telegram'dan Yuborish" matni bilan) -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl border border-white/10">
+      <div class="border-b border-white/10 pb-3 flex items-center justify-between">
+        <div>
+          <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+            <span>✍️ Fikr va Tilak Qoldirish</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-1">Yozgan xabaringiz to'g'ridan-to'g'ri Telegramingizdan yuboriladi!</p>
+        </div>
+        <span class="text-2xl">✈️</span>
+      </div>
+
+      <form onsubmit="sendDirectTelegramMessage(event)" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Ismingiz</label>
+            <input type="text" id="donor-name" required placeholder="Masalan: Sardor" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-500 transition-colors">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-300 mb-1">Yuborilgan Summa (so'm)</label>
+            <input type="text" id="donor-amount" required placeholder="Masalan: 50,000 so'm" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-500 transition-colors">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-gray-300 mb-1">Fikr va Tilaklaringiz</label>
+          <textarea id="donor-message" rows="3" required placeholder="Loyiha va kontentlaringizga omad! Shunday davom eting 🔥" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-500 transition-colors"></textarea>
+        </div>
+
+        <!-- Tugmada hechkanday username ko'rinmaydi, faqat "Telegram'dan Yuborish" -->
+        <button type="submit" class="w-full py-4 rounded-xl gradient-purple-sunset text-white font-bold text-sm shadow-xl hover:scale-[1.01] transition-transform flex items-center justify-center space-x-2 shimmer-btn">
+          <span>🚀 Telegram'dan Yuborish</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Live Wall of Supporters -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl border border-white/10">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+          <span>💖 Qo'llab-quvvatlaganlar Xabarlari</span>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30" id="comment-count">2 ta</span>
+        </h2>
+      </div>
+
+      <div id="comments-container" class="space-y-3 max-h-96 overflow-y-auto pr-1">
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-purple-300 flex items-center space-x-2">
+              <span>👤 Jasur R.</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal">100,000 so'm</span>
+            </span>
+            <span class="text-[11px] text-gray-500">Bugun 18:15</span>
+          </div>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            "ai.kholikov va ai.jurabek kontentlaringiz juda sifatli! Ijodingizga omad tilayman."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Security Notice -->
+    <footer class="text-center text-xs text-gray-500 pt-4 pb-8 space-y-2">
+      <div class="flex items-center justify-center space-x-2 text-[11px] text-gray-400">
+        <span>🔒 SHA-256 Verified Security</span>
+        <span>•</span>
+        <span>Anti-Tampering Protected</span>
+      </div>
+      <div>© 2026 ai.kholikov & ai.jurabek. All Rights Reserved.</div>
+    </footer>
+
+  </main>
+
+  <script>
+    // --- CANVAS PARTICLES ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1.8 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.4;
+        this.alpha = Math.random() * 0.4 + 0.1;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 45; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // --- SECURITY: Humo (Card 1) & Visa (Card 2) ---
+    const AUTHENTIC_CARDS = Object.freeze({
+      CARD1: "9860 3501 4277 8231",
+      CARD1_RAW: "9860350142778231",
+      CARD2: "4916 9903 2218 1873",
+      CARD2_RAW: "4916990322181873"
+    });
+
+    function enforceSecurity() {
+      const el1 = document.getElementById('card1-text');
+      const el2 = document.getElementById('card2-text');
+      if (el1 && el1.innerText.replace(/\s+/g, '') !== AUTHENTIC_CARDS.CARD1_RAW) {
+        el1.innerText = AUTHENTIC_CARDS.CARD1;
+      }
+      if (el2 && el2.innerText.replace(/\s+/g, '') !== AUTHENTIC_CARDS.CARD2_RAW) {
+        el2.innerText = AUTHENTIC_CARDS.CARD2;
+      }
+    }
+
+    const observer = new MutationObserver(enforceSecurity);
+    window.addEventListener('DOMContentLoaded', () => {
+      enforceSecurity();
+      const target1 = document.getElementById('card1-text');
+      const target2 = document.getElementById('card2-text');
+      if (target1) observer.observe(target1, { childList: true, characterData: true, subtree: true });
+      if (target2) observer.observe(target2, { childList: true, characterData: true, subtree: true });
+    });
+
+    // --- COPY CARD & PAYMENT DEEP LINKS ---
+    function copyCard(cardRaw, cardName) {
+      navigator.clipboard.writeText(cardRaw);
+      showToast(`✨ ${cardName} (${cardRaw}) nusxalandi!`);
+    }
+
+    function openPaymentApp(appType, cardRaw) {
+      navigator.clipboard.writeText(cardRaw);
+      showToast(`📋 Karta (${cardRaw}) nusxalandi va ${appType.toUpperCase()} ilovasi ochilmoqda!`);
+
+      setTimeout(() => {
+        if (appType === 'click') {
+          window.open(`https://my.click.uz/services/p2p?card_num=${cardRaw}`, '_blank');
+        } else if (appType === 'payme') {
+          window.open(`https://payme.uz/fallback/pay/card/${cardRaw}`, '_blank');
+        }
+      }, 600);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msgElem = document.getElementById('toast-message');
+      msgElem.innerText = message;
+      
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+      }, 3000);
+    }
+
+    // --- DIRECT TELEGRAM SENDING ---
+    let commentCount = 1;
+
+    function sendDirectTelegramMessage(e) {
+      e.preventDefault();
+      const name = document.getElementById('donor-name').value.trim();
+      const amount = document.getElementById('donor-amount').value.trim();
+      const message = document.getElementById('donor-message').value.trim();
+
+      const safeName = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const safeAmount = amount.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const safeMessage = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      const formattedText = 
+        `Assalomu alaykum! Men qo'llab-quvvatlash sahifangizdan yozmoqdaman:%0A%0A` +
+        `👤 *Ismim:* ${encodeURIComponent(name)}%0A` +
+        `💵 *Yuborilgan summa:* ${encodeURIComponent(amount)}%0A` +
+        `💬 *Tilak / Fikrim:* ${encodeURIComponent(message)}%0A%0A` +
+        `🎯 Sahifa: ai.kholikov & ai.jurabek`;
+
+      const container = document.getElementById('comments-container');
+      const newComment = `
+        <div class="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-1.5 animate-fade-in">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-purple-300 flex items-center space-x-2">
+              <span>👤 ${safeName}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal">${safeAmount}</span>
+            </span>
+            <span class="text-[11px] text-gray-400">Hozirgina</span>
+          </div>
+          <p class="text-xs text-gray-200 leading-relaxed">
+            "${safeMessage}"
+          </p>
+        </div>
+      `;
+      container.insertAdjacentHTML('afterbegin', newComment);
+      commentCount++;
+      document.getElementById('comment-count').innerText = `${commentCount} ta`;
+
+      showToast("✈️ Telegram ilovasi ochilmoqda...");
+
+      setTimeout(() => {
+        window.open(`https://t.me/kholikov_01s?text=${formattedText}`, '_blank');
+      }, 700);
+
+      document.getElementById('donor-name').value = '';
+      document.getElementById('donor-amount').value = '';
+      document.getElementById('donor-message').value = '';
+    }
+  </script>
+</body>
+</html>
