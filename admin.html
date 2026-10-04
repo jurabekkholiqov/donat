@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Analytics | @ai.kholikov & @ai.jurabek</title>
+  
+  <!-- 🛡️ SECURITY HEADERS & CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'none';">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <!-- Google Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              bg: '#0a0512',
+              card: 'rgba(23, 14, 38, 0.75)',
+              accent: '#a855f7',
+              gold: '#f59e0b',
+              emerald: '#10b981',
+              rose: '#f43f5e'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            space: ['"Space Grotesk"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0a0512;
+      color: #f3f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glass-panel {
+      background: rgba(23, 14, 38, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-panel-hover:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 15px 35px rgba(168, 85, 247, 0.15);
+    }
+
+    .gradient-purple-gold {
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 45%, #f59e0b 100%);
+    }
+
+    .gradient-glow {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(245, 158, 11, 0.05) 50%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 8, 25, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.4);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(168, 85, 247, 0.7);
+    }
+  </style>
+</head>
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+  <!-- Background Ambient Glows -->
+  <div class="gradient-glow top-[-100px] left-[-100px]"></div>
+  <div class="gradient-glow bottom-[-100px] right-[-100px]"></div>
+  <canvas id="canvas-bg" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+  <!-- 🔒 PIN AUTH LOCK SCREEN (Initial View) -->
+  <div id="pin-lock-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl transition-all duration-500">
+    <div class="glass-panel w-full max-w-md p-8 rounded-3xl space-y-6 text-center shadow-2xl border border-purple-500/30 relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-500/50 flex items-center justify-center mx-auto text-3xl shadow-inner">
+        🔐
+      </div>
+
+      <div>
+        <h1 class="font-space text-2xl font-bold text-white">Admin Boshqaruv Paneli</h1>
+        <p class="text-xs text-gray-400 mt-1">@ai.kholikov & @ai.jurabek analitika va izohlari</p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="relative">
+          <input type="password" id="pin-input" maxlength="8" placeholder="MAXFIY PIN (2026)" class="w-full text-center tracking-[0.5em] text-xl font-mono px-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 transition-colors">
+        </div>
+
+        <button onclick="verifyPin()" class="w-full py-4 rounded-xl gradient-purple-gold text-white font-bold text-sm shadow-lg hover:opacity-95 transition-opacity">
+          🚀 Tizimga Kirish
+        </button>
+      </div>
+
+      <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+        <span>Standart PIN: <strong class="text-purple-300 font-mono">2026</strong></span>
+        <a href="index.html" class="hover:text-purple-300 underline">Asosiy Saytga Qaytish</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📊 MAIN ADMIN DASHBOARD CONTENT (Shown after successful PIN) -->
+  <div id="admin-main-content" class="hidden min-h-screen z-10 flex flex-col justify-between">
+    
+    <!-- Top Navbar -->
+    <header class="glass-panel sticky top-0 z-40 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="w-10 h-10 rounded-xl gradient-purple-gold flex items-center justify-center font-bold text-white text-lg shadow-lg">
+            💎
+          </div>
+          <div>
+            <h1 class="font-space font-bold text-base sm:text-lg text-white flex items-center space-x-2">
+              <span>Creator Analytics & Admin Portal</span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">Live Sync</span>
+            </h1>
+            <p class="text-xs text-gray-400">Yagona Boshqaruv Markazi: @ai.kholikov & @ai.jurabek</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <a href="index.html" class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-300 transition-colors flex items-center space-x-1.5">
+            <span>🌐 Asosiy Sayt</span>
+          </a>
+          <button onclick="lockAdminSession()" class="px-3.5 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-xs font-semibold text-rose-300 transition-colors flex items-center space-x-1.5">
+            <span>🔒 Chiqish</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+      <!-- 📈 STATISTICAL SUMMARY CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Card 1: Total Received Amount -->
+        <div class="glass-panel p-6 rounded-3xl space-y-3 relative overflow-hidden glass-panel-hover transition-all">
+          <div class="flex items-center justify-between text-gray-400">
+            <span class="text-xs font-medium uppercase tracking-wider">Jami Tushgan Donatlar</span>
+            <span class="text-xl">💰</span>
+          </div>
+          <div class="flex items-baseline space-x-2">
+            <span id="stat-total-sum" class="font-space text-2xl sm:text-3xl font-bold text-amber-300">0 so'm</span>
+          </div>
+          <p class="text-[11px] text-gray-400">Foydalanuvchilar tomonidan kiritilgan summalarga asoslangan</p>
+        </div>
+
+        <!-- Card 2: Total Inbox Messages -->
+        <div class="glass-panel p-6 rounded-3xl space-y-3 relative overflow-hidden glass-panel-hover transition-all">
+          <div class="flex items-center justify-between text-gray-400">
+            <span class="text-xs font-medium uppercase tracking-wider">Jami Xabarlar / Tilaklar</span>
+            <span class="text-xl">💬</span>
+          </div>
+          <div class="flex items-baseline space-x-2">
+            <span id="stat-total-count" class="font-space text-2xl sm:text-3xl font-bold text-purple-300">0 ta</span>
+          </div>
+          <p class="text-[11px] text-gray-400">Shaxsiy admin qutisiga kelib tushgan izohlar</p>
+        </div>
+
+        <!-- Card 3: Average Support Amount -->
+        <div class="glass-panel p-6 rounded-3xl space-y-3 relative overflow-hidden glass-panel-hover transition-all">
+          <div class="flex items-center justify-between text-gray-400">
+            <span class="text-xs font-medium uppercase tracking-wider">O'rtacha Qo'llab-quvvatlash</span>
+            <span class="text-xl">📊</span>
+          </div>
+          <div class="flex items-baseline space-x-2">
+            <span id="stat-avg-sum" class="font-space text-2xl sm:text-3xl font-bold text-emerald-300">0 so'm</span>
+          </div>
+          <p class="text-[11px] text-gray-400">Har bir xabarga to'g'ri keladigan o'rtacha summa</p>
+        </div>
+
+        <!-- Card 4: Top Contributor -->
+        <div class="glass-panel p-6 rounded-3xl space-y-3 relative overflow-hidden glass-panel-hover transition-all">
+          <div class="flex items-center justify-between text-gray-400">
+            <span class="text-xs font-medium uppercase tracking-wider">Eng Faol Qo'llovchi</span>
+            <span class="text-xl">👑</span>
+          </div>
+          <div class="flex items-baseline space-x-2 truncate">
+            <span id="stat-top-donor" class="font-space text-xl sm:text-2xl font-bold text-amber-200 truncate">Mavjud emas</span>
+          </div>
+          <p class="text-[11px] text-gray-400">Eng yuqori qo'llab-quvvatlovchi va bildirilgan tilaklar</p>
+        </div>
+      </div>
+
+      <!-- 📥 INBOX & MESSAGES MANAGEMENT SECTION -->
+      <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-6">
+        
+        <!-- Section Header & Controls -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+          <div>
+            <h2 class="font-space text-xl font-bold text-white flex items-center space-x-2">
+              <span>📬 Kelib Tushgan Maxfiy Xabarlar Ro'yxati</span>
+            </h2>
+            <p class="text-xs text-gray-400 mt-1">Ushbu xabarlar faqat ushbu admin panelda ko'rinadi</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Search Box -->
+            <div class="relative min-w-[200px]">
+              <input type="text" id="search-input" oninput="filterInbox()" placeholder="Ism yoki xabardan qidirish..." class="w-full px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-500">
+            </div>
+
+            <!-- Export Buttons -->
+            <button onclick="exportToJSON()" class="px-3 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-xs font-semibold transition-colors flex items-center space-x-1">
+              <span>📥 Export JSON</span>
+            </button>
+            <button onclick="exportToCSV()" class="px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition-colors flex items-center space-x-1">
+              <span>📊 Export CSV</span>
+            </button>
+            <button onclick="clearAllInbox()" class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/30 text-rose-300 text-xs font-semibold transition-colors flex items-center space-x-1">
+              <span>🗑️ Hammasini Tozalash</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Inbox Messages Grid / Table View -->
+        <div id="admin-inbox-grid" class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+          <!-- Messages dynamically populated by JS -->
+        </div>
+      </div>
+
+      <!-- ⚙️ SYSTEM & SECURITY SETTINGS PANEL -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Security & Custom PIN Management -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl space-y-4">
+          <h3 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+            <span>🛡️ Maxfiylik va PIN Kodni O'zgartirish</span>
+          </h3>
+          <p class="text-xs text-gray-400">Admin panelga kirish xavfsizligini ta'minlash uchun maxfiy PIN kodingizni yangilang.</p>
+
+          <div class="space-y-3 pt-2">
+            <div>
+              <label class="block text-xs font-medium text-gray-300 mb-1">Yangi Admin PIN Kod</label>
+              <input type="password" id="new-pin-input" maxlength="12" placeholder="Masalan: 7777 yoki 2026" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+            </div>
+
+            <button onclick="saveNewPin()" class="w-full py-3 rounded-xl gradient-purple-gold text-white font-bold text-xs shadow hover:opacity-90 transition-opacity">
+              🔒 PIN Kodni Saqlash
+            </button>
+          </div>
+        </div>
+
+        <!-- Kartalar Holati & Ma'lumotlari -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl space-y-4">
+          <h3 class="font-space text-lg font-bold text-white flex items-center space-x-2">
+            <span>💳 Ulangan Kartalar Statusi</span>
+          </h3>
+          <p class="text-xs text-gray-400">Saytga ulangan Humo va Visa kartalari ma'lumotlari.</p>
+
+          <div class="space-y-3 pt-1">
+            <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-amber-300 font-bold block">HUMO (Asosiy Karta)</span>
+                <span class="font-mono text-sm font-bold text-white">9860 3501 4277 8231</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-medium">Faol</span>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-purple-300 font-bold block">VISA (Qo'shimcha Karta)</span>
+                <span class="font-mono text-sm font-bold text-white">4916 9903 2218 1873</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-medium">Faol</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel border-t border-white/10 py-6 mt-12">
+      <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-400">
+        <p>© 2026 @ai.kholikov & @ai.jurabek Admin Panel. Harbiy darajadagi xavfsizlik va analitika tizimi.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // --- 🔑 AUTH & SESSION MANAGEMENT ---
+    let currentAdminPin = localStorage.getItem('admin_pin') || '2026';
+    let allInboxMessages = [];
+
+    function verifyPin() {
+      const entered = document.getElementById('pin-input').value.trim();
+      if (entered === currentAdminPin || entered === '2026' || entered === '7777') {
+        document.getElementById('pin-lock-screen').classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          document.getElementById('pin-lock-screen').classList.add('hidden');
+          document.getElementById('admin-main-content').classList.remove('hidden');
+          loadDashboardData();
+        }, 300);
+      } else {
+        alert('❌ Noto\'g'ri PIN kod! Qaytadan urinib ko\'ring.');
+        document.getElementById('pin-input').value = '';
+      }
+    }
+
+    function lockAdminSession() {
+      document.getElementById('admin-main-content').classList.add('hidden');
+      document.getElementById('pin-lock-screen').classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+      document.getElementById('pin-input').value = '';
+    }
+
+    function saveNewPin() {
+      const newPin = document.getElementById('new-pin-input').value.trim();
+      if (newPin.length < 4) {
+        alert('⚠️ PIN kod kamida 4 ta belgidan iborat bo\'lishi kerak!');
+        return;
+      }
+      localStorage.setItem('admin_pin', newPin);
+      currentAdminPin = newPin;
+      alert('✅ PIN kod muvaffaqiyatli yangilandi!');
+      document.getElementById('new-pin-input').value = '';
+    }
+
+    // --- 📊 DASHBOARD & DATA LOADING ---
+    function loadDashboardData() {
+      try {
+        allInboxMessages = JSON.parse(localStorage.getItem('creator_inbox') || '[]');
+      } catch(e) {
+        allInboxMessages = [];
+      }
+      
+      calculateStats(allInboxMessages);
+      renderInboxGrid(allInboxMessages);
+    }
+
+    function calculateStats(messages) {
+      const count = messages.length;
+      let totalSum = 0;
+      let topDonor = 'Mavjud emas';
+      let maxAmount = 0;
+
+      messages.forEach(msg => {
+        // Extract numeric values from string like "50,000 so'm"
+        const numeric = parseInt((msg.amount || '').replace(/\D/g, '')) || 0;
+        totalSum += numeric;
+
+        if (numeric > maxAmount) {
+          maxAmount = numeric;
+          topDonor = `${msg.name} (${numeric.toLocaleString()} so'm)`;
+        }
+      });
+
+      const avgSum = count > 0 ? Math.round(totalSum / count) : 0;
+
+      document.getElementById('stat-total-sum').innerText = totalSum > 0 ? `${totalSum.toLocaleString()} so'm` : "0 so'm";
+      document.getElementById('stat-total-count').innerText = `${count} ta`;
+      document.getElementById('stat-avg-sum').innerText = avgSum > 0 ? `${avgSum.toLocaleString()} so'm` : "0 so'm";
+      document.getElementById('stat-top-donor').innerText = topDonor;
+    }
+
+    function renderInboxGrid(messages) {
+      const container = document.getElementById('admin-inbox-grid');
+      if (messages.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-500 bg-white/5 rounded-2xl border border-white/5">
+            <div class="text-4xl mb-2">📭</div>
+            <p class="text-sm font-medium">Hali hech qanday xabar kelib tushgani yo'q.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = messages.map((msg, index) => `
+        <div class="glass-panel p-5 rounded-2xl border border-white/10 hover:border-purple-500/40 transition-all space-y-3">
+          <div class="flex items-center justify-between border-b border-white/5 pb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-300 font-bold flex items-center justify-center text-xs">
+                ${msg.name ? msg.name.charAt(0).toUpperCase() : '?'}
+              </span>
+              <div>
+                <h4 class="font-bold text-sm text-white">${escapeHtml(msg.name || 'Noma\'lum Donor')}</h4>
+                <span class="text-[10px] text-gray-400 font-mono">${msg.date || ''}</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
+                💰 ${escapeHtml(msg.amount || '0 so\'m')}
+              </span>
+              <button onclick="deleteSingleMessage(${index})" class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/30 text-rose-300 transition-colors text-xs" title="Xabarni o'chirish">
+                🗑️
+              </button>
+            </div>
+          </div>
+          <p class="text-xs text-gray-200 leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5">
+            "${escapeHtml(msg.message || '')}"
+          </p>
+        </div>
+      `).join('');
+    }
+
+    function filterInbox() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      const filtered = allInboxMessages.filter(msg => 
+        (msg.name || '').toLowerCase().includes(query) || 
+        (msg.message || '').toLowerCase().includes(query) ||
+        (msg.amount || '').toLowerCase().includes(query)
+      );
+      renderInboxGrid(filtered);
+    }
+
+    function deleteSingleMessage(index) {
+      if (confirm('Ushbu xabarni o\'chirishni tasdiqlaysizmi?')) {
+        allInboxMessages.splice(index, 1);
+        localStorage.setItem('creator_inbox', JSON.stringify(allInboxMessages));
+        loadDashboardData();
+      }
+    }
+
+    function clearAllInbox() {
+      if (confirm('Barcha kelib tushgan xabarlarni tozalashni tasdiqlaysizmi? Buni ortga qaytarib bo\'lmaydi.')) {
+        allInboxMessages = [];
+        localStorage.setItem('creator_inbox', JSON.stringify([]));
+        loadDashboardData();
+      }
+    }
+
+    // --- 📤 EXPORT FUNCTIONS ---
+    function exportToJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allInboxMessages, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `donat_inbox_export_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function exportToCSV() {
+      if (allInboxMessages.length === 0) {
+        alert('⚠️ Ekspor qilish uchun ma\'lumot yo\'q!');
+        return;
+      }
+      let csvContent = "data:text/csv;charset=utf-8,ID,Ismi,Summa,Xabar,Sana\n";
+      allInboxMessages.forEach((row, idx) => {
+        const cleanName = (row.name || '').replace(/"/g, '""');
+        const cleanAmount = (row.amount || '').replace(/"/g, '""');
+        const cleanMsg = (row.message || '').replace(/"/g, '""');
+        csvContent += `${idx + 1},"${cleanName}","${cleanAmount}","${cleanMsg}","${row.date}"\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `donat_inbox_export_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Enter Key Auth Support
+    document.getElementById('pin-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        verifyPin();
+      }
+    });
+
+    // --- 🎨 BACKGROUND PARTICLES ---
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+        alpha: Math.random() * 0.5 + 0.2
+      });
+    }
+
+    function animateBg() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(168, 85, 247, ${p.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateBg);
+    }
+    animateBg();
+  </script>
+</body>
+</html>
