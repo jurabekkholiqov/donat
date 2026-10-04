@@ -232,6 +232,7 @@
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold uppercase">Humo</span>
               </div>
               <div id="card1-text" class="font-mono font-bold text-base sm:text-lg text-amber-200 tracking-wider mt-0.5">9860 3501 4277 8231</div>
+              <div class="text-[11px] text-gray-400 mt-0.5">👤 Karta egasi: <strong class="text-gray-200">JURABEK KHOLIQOV</strong></div>
             </div>
           </div>
           <button onclick="event.stopPropagation(); copyCardDirect(1);" class="px-4 py-2.5 rounded-xl bg-amber-600/30 hover:bg-amber-600 text-amber-200 hover:text-white text-xs font-bold transition-all shadow flex items-center space-x-1.5 active:scale-95">
@@ -253,6 +254,7 @@
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold uppercase">Visa</span>
               </div>
               <div id="card2-text" class="font-mono font-bold text-base sm:text-lg text-purple-200 tracking-wider mt-0.5">4916 9903 2218 1873</div>
+              <div class="text-[11px] text-gray-400 mt-0.5">👤 Karta egasi: <strong class="text-gray-200">JURABEK KHOLIQOV</strong></div>
             </div>
           </div>
           <button onclick="event.stopPropagation(); copyCardDirect(2);" class="px-4 py-2.5 rounded-xl bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all shadow flex items-center space-x-1.5 active:scale-95">
@@ -270,7 +272,7 @@
           <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
             <span>✍️ Fikr va Tilak Qoldirish</span>
           </h2>
-          <p class="text-xs text-gray-400 mt-1">Xabaringiz saqlanadi va egalarining maxsus admin paneliga yetkaziladi!</p>
+          <p class="text-xs text-gray-400 mt-1">Xabaringiz saqlanadi va admin tasdiqlagach saytda ko'rinadi!</p>
         </div>
         <span class="text-2xl">💬</span>
       </div>
@@ -290,6 +292,15 @@
         <div>
           <label class="block text-xs font-medium text-gray-300 mb-1">Fikr va Tilaklaringiz</label>
           <textarea id="donor-message" rows="3" required maxlength="500" placeholder="Loyiha va kontentlaringizga omad! Shunday davom eting 🔥" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-500 transition-colors"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-gray-300 mb-1">📸 To'lov Cheki / Skrinshot (Ixtiyoriy)</label>
+          <input type="file" id="donor-receipt" accept="image/*" onchange="handleReceiptPreview(event)" class="w-full text-xs text-gray-400 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-500/20 file:text-purple-300 hover:file:bg-purple-500/30 cursor-pointer bg-white/5 rounded-xl border border-white/10 p-1">
+          <div id="receipt-preview-container" class="hidden mt-2 relative w-24 h-24 rounded-xl overflow-hidden border border-purple-500/40 shadow-lg">
+            <img id="receipt-preview-img" src="" class="w-full h-full object-cover">
+            <button type="button" onclick="removeReceiptPreview()" class="absolute top-1 right-1 bg-red-500/80 hover:bg-red-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">✕</button>
+          </div>
         </div>
 
         <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl gradient-purple-sunset text-white font-bold text-sm shadow-xl hover:scale-[1.01] transition-transform flex items-center justify-center space-x-2 shimmer-btn">
@@ -529,9 +540,36 @@
       }, 3500);
     }
 
-    // --- 📥 LOCAL COMMENT SUBMISSION & SECRET INBOX ---
+    // --- 📥 RECEIPT PREVIEW & MODERATION SYSTEM ---
+    let receiptBase64 = null;
     let commentCount = 0;
     let lastSubmitTime = 0;
+
+    function handleReceiptPreview(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        showToast("⚠️ Rasm hajmi 5MB dan kichik bo'lishi kerak!");
+        e.target.value = "";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        receiptBase64 = evt.target.result;
+        document.getElementById('receipt-preview-img').src = receiptBase64;
+        document.getElementById('receipt-preview-container').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeReceiptPreview() {
+      receiptBase64 = null;
+      document.getElementById('donor-receipt').value = "";
+      document.getElementById('receipt-preview-img').src = "";
+      document.getElementById('receipt-preview-container').classList.add('hidden');
+    }
 
     function getInbox() {
       try {
@@ -545,6 +583,51 @@
       try {
         localStorage.setItem('creator_inbox', JSON.stringify(inbox));
       } catch (e) {}
+    }
+
+    function getApprovedComments() {
+      try {
+        return JSON.parse(localStorage.getItem('approved_comments') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function loadPublicApprovedComments() {
+      const approved = getApprovedComments();
+      const container = document.getElementById('comments-container');
+      document.getElementById('comment-count').innerText = `${approved.length} ta`;
+
+      if (approved.length === 0) {
+        container.innerHTML = `
+          <div id="empty-comments-msg" class="text-center py-8 text-gray-500 text-xs italic">
+            Hali tasdiqlangan xabarlar mavjud emas. Birinchi bo'lib tilak qoldiring! 🌟
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = approved.map(item => `
+        <div class="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-2 animate-fade-in">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-purple-300 flex items-center space-x-2">
+              <span>👤 ${escapeHtml(item.name || 'Noma\'lum')}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal">${escapeHtml(item.amount || '0 so\'m')}</span>
+            </span>
+            <span class="text-[11px] text-gray-400 font-mono">${item.time || 'Hozirgina'}</span>
+          </div>
+          <p class="text-xs text-gray-200 leading-relaxed font-sans">
+            "${escapeHtml(item.message || '')}"
+          </p>
+          ${item.receiptData ? `
+            <div class="pt-1">
+              <button onclick="viewReceiptModal('${item.id || ''}')" class="text-[10px] px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors flex items-center space-x-1">
+                <span>📸 To'lov Chekini ko'rish</span>
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
     }
 
     function submitLocalComment(e) {
@@ -564,65 +647,33 @@
       if (!nameInput || !amountInput || !messageInput) return;
 
       const timeStr = new Date().toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
+      const msgId = 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
 
-      // Save to Secret Admin Inbox
+      // Save to Secret Admin Inbox with status: 'pending'
       const inbox = getInbox();
       inbox.unshift({
+        id: msgId,
         name: nameInput,
         amount: amountInput,
         message: messageInput,
+        receiptData: receiptBase64,
         time: timeStr,
-        date: new Date().toLocaleDateString('uz-UZ')
+        date: new Date().toLocaleDateString('uz-UZ'),
+        status: 'pending'
       });
       saveInbox(inbox);
 
-      // Safe DOM Node Creation for Live Wall
-      const container = document.getElementById('comments-container');
-      const emptyMsg = document.getElementById('empty-comments-msg');
-      if (emptyMsg) emptyMsg.remove();
-      const cardDiv = document.createElement('div');
-      cardDiv.className = 'p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-1.5 animate-fade-in';
-
-      const headerDiv = document.createElement('div');
-      headerDiv.className = 'flex items-center justify-between';
-
-      const userSpan = document.createElement('span');
-      userSpan.className = 'font-bold text-sm text-purple-300 flex items-center space-x-2';
-      
-      const nameNode = document.createElement('span');
-      nameNode.textContent = `👤 ${nameInput}`;
-      
-      const amountNode = document.createElement('span');
-      amountNode.className = 'text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal';
-      amountNode.textContent = amountInput;
-
-      userSpan.appendChild(nameNode);
-      userSpan.appendChild(amountNode);
-
-      const timeSpan = document.createElement('span');
-      timeSpan.className = 'text-[11px] text-gray-400';
-      timeSpan.textContent = 'Hozirgina';
-
-      headerDiv.appendChild(userSpan);
-      headerDiv.appendChild(timeSpan);
-
-      const pMsg = document.createElement('p');
-      pMsg.className = 'text-xs text-gray-200 leading-relaxed';
-      pMsg.textContent = `"${messageInput}"`;
-
-      cardDiv.appendChild(headerDiv);
-      cardDiv.appendChild(pMsg);
-
-      container.insertBefore(cardDiv, container.firstChild);
-      commentCount++;
-      document.getElementById('comment-count').innerText = `${commentCount} ta`;
-
-      showToast("🎉 Rahmat! Izohingiz saqlandi.");
+      showToast("⏳ Rahmat! Izohingiz va to'lov chekingiz adminga yuborildi. Tekshiruvdan so'ng saytda ko'rinadi!");
 
       document.getElementById('donor-name').value = '';
       document.getElementById('donor-amount').value = '';
       document.getElementById('donor-message').value = '';
+      removeReceiptPreview();
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPublicApprovedComments();
+    });
 
     // --- 🔒 SECRET ADMIN PANEL LOGIC ---
     function openAdminModal() {
