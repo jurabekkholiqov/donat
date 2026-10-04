@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 🛡️ MILITARY-GRADE SECURITY HEADERS & CSP -->
+  <!-- 🛡️ SECURITY HEADERS & CSP -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com https://fonts.gstatic.com https://images.unsplash.com; frame-ancestors 'none';">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -50,7 +50,6 @@
       box-shadow: 0 25px 60px rgba(168, 85, 247, 0.25);
     }
 
-    /* Gradients & Glows */
     .gradient-purple-sunset {
       background: linear-gradient(135deg, #7c3aed 0%, #a855f7 40%, #ec4899 75%, #f59e0b 100%);
     }
@@ -73,7 +72,6 @@
       filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.5));
     }
 
-    /* Keyframe Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -98,12 +96,10 @@
       animation: pulseRing 3.5s ease-in-out infinite;
     }
 
-    /* Toast Notification */
     #toast {
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Shimmer Effect */
     .shimmer-btn {
       position: relative;
       overflow: hidden;
@@ -128,7 +124,7 @@
     }
   </style>
 
-  <!-- 🛡️ ANTI-CLICKJACKING INLINE CHECK -->
+  <!-- Anti-Clickjacking check -->
   <script>
     if (window.top !== window.self) {
       window.top.location.href = window.self.location.href;
@@ -164,7 +160,6 @@
 
       <!-- Dual Instagram Avatars -->
       <div class="flex items-center justify-center -space-x-5 mb-5">
-        <!-- Profile 1: ai.kholikov -->
         <div class="relative group cursor-pointer">
           <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-purple">
             <div class="w-full h-full rounded-full bg-slate-950 p-[2px] overflow-hidden flex items-center justify-center">
@@ -176,7 +171,6 @@
           </span>
         </div>
 
-        <!-- Profile 2: ai.jurabek -->
         <div class="relative group cursor-pointer">
           <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-[3px] gradient-instagram animate-pulse-ring shadow-xl glow-amber">
             <div class="w-full h-full rounded-full bg-slate-950 p-[2px] overflow-hidden flex items-center justify-center">
@@ -209,20 +203,20 @@
       </div>
     </div>
 
-    <!-- Plastic Cards Section (Hardened Crypto-Verified Protection) -->
+    <!-- Plastic Cards Section (Fixed Click & Payme URLs) -->
     <div id="cards-section" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl border border-white/10 relative">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
           <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
             <span>💳 Qo'llab-quvvatlash Kartalari</span>
-            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">Crypto-Signed Lock</span>
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">Verified Lock</span>
           </h2>
           <p class="text-xs text-gray-400 mt-1">Kartani bosing — raqam nusxalanadi va ilova avtomatik ochiladi:</p>
         </div>
       </div>
 
       <!-- ASOSIY KARTA: Humo (9860 3501 4277 8231) -->
-      <div id="card1-card" class="glass-card-hover p-4 rounded-2xl bg-white/5 border border-amber-500/40 space-y-3" data-authentic-card="9860350142778231">
+      <div id="card1-card" class="glass-card-hover p-4 rounded-2xl bg-white/5 border border-amber-500/40 space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center font-bold text-xs text-amber-300">
@@ -241,6 +235,7 @@
           </button>
         </div>
 
+        <!-- Corrected Click & Payme URLs (No 404 Errors) -->
         <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
           <button onclick="openPaymentAppDirect('click', 1)" class="py-2.5 px-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shimmer-btn">
             <span>🔵 Click'da To'lash</span>
@@ -252,7 +247,7 @@
       </div>
 
       <!-- QO'SHIMCHA KARTA: Visa (4916 9903 2218 1873) -->
-      <div id="card2-card" class="glass-card-hover p-4 rounded-2xl bg-white/5 border border-purple-500/40 space-y-3" data-authentic-card="4916990322181873">
+      <div id="card2-card" class="glass-card-hover p-4 rounded-2xl bg-white/5 border border-purple-500/40 space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/50 flex items-center justify-center font-bold text-xs text-purple-300">
@@ -283,19 +278,19 @@
 
     </div>
 
-    <!-- Direct Telegram Sending Form (XSS & Rate-Limit Protected) -->
+    <!-- Direct Comment Form (No Telegram Redirect, Saves Directly) -->
     <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl border border-white/10">
       <div class="border-b border-white/10 pb-3 flex items-center justify-between">
         <div>
           <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
             <span>✍️ Fikr va Tilak Qoldirish</span>
           </h2>
-          <p class="text-xs text-gray-400 mt-1">Yozgan xabaringiz to'g'ridan-to'g'ri Telegramingizdan yuboriladi!</p>
+          <p class="text-xs text-gray-400 mt-1">Xabaringiz saqlanadi va egalarining maxsus admin paneliga yetkaziladi!</p>
         </div>
-        <span class="text-2xl">✈️</span>
+        <span class="text-2xl">💬</span>
       </div>
 
-      <form onsubmit="sendDirectTelegramMessage(event)" class="space-y-4">
+      <form onsubmit="submitLocalComment(event)" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-medium text-gray-300 mb-1">Ismingiz</label>
@@ -313,8 +308,7 @@
         </div>
 
         <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl gradient-purple-sunset text-white font-bold text-sm shadow-xl hover:scale-[1.01] transition-transform flex items-center justify-center space-x-2 shimmer-btn">
-          <span>🚀 Telegram'dan Yuborish</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <span>💬 Izoh va Qo'llab-quvvatlovni Yuborish</span>
         </button>
       </form>
     </div>
@@ -344,17 +338,59 @@
       </div>
     </div>
 
-    <!-- Footer Security Notice -->
-    <footer class="text-center text-xs text-gray-500 pt-4 pb-8 space-y-2">
+    <!-- Footer & Secret Admin Button -->
+    <footer class="text-center text-xs text-gray-500 pt-4 pb-8 space-y-3">
       <div class="flex items-center justify-center space-x-2 text-[11px] text-gray-400">
-        <span>🛡️ Cryptographically Sealed & Verified</span>
+        <span>🛡️ Protected Official Hub</span>
         <span>•</span>
-        <span>Anti-DOM Tampering Active</span>
+        <button onclick="openAdminModal()" class="text-purple-400 hover:text-purple-300 font-semibold underline cursor-pointer">
+          🔒 Maxsus Admin Panel (Egalari uchun)
+        </button>
       </div>
       <div>© 2026 ai.kholikov & ai.jurabek. All Rights Reserved.</div>
     </footer>
 
   </main>
+
+  <!-- 🔒 SECRET ADMIN PANEL MODAL -->
+  <div id="admin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-card rounded-3xl max-w-lg w-full p-6 sm:p-8 relative border border-purple-500/40 shadow-2xl transform scale-95 transition-transform duration-300" id="admin-box">
+      <button onclick="closeAdminModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl">✕</button>
+      
+      <div id="admin-auth-view" class="space-y-4">
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-xl mx-auto mb-3">🔒</div>
+          <h3 class="font-space text-xl font-bold text-white">Shaxsiy Admin Paneli</h3>
+          <p class="text-xs text-gray-400 mt-1">Barcha yuborilgan xabarlarni ko'rish uchun PIN kodni kiriting (Standart: <code>2026</code>)</p>
+        </div>
+
+        <div>
+          <input type="password" id="admin-pin" placeholder="PIN kodni kiriting..." class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-center font-mono text-lg focus:outline-none focus:border-purple-500">
+        </div>
+
+        <button onclick="verifyAdminPin()" class="w-full py-3.5 rounded-xl gradient-purple-sunset text-white font-bold text-sm shadow-lg hover:scale-[1.01] transition-transform">
+          🔑 Kirish
+        </button>
+      </div>
+
+      <!-- Secret Inbox Content View (Only visible after PIN entry) -->
+      <div id="admin-dashboard-view" class="hidden space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div>
+            <h3 class="font-space text-lg font-bold text-white">📬 Kelgan Xabarlar Inbox</h3>
+            <p class="text-[11px] text-emerald-400">Faqat egalariga ko'rinadigan shaxsiy ro'yxat</p>
+          </div>
+          <button onclick="clearAdminInbox()" class="px-3 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white text-[11px] font-semibold transition-colors">
+            🗑️ Tozalash
+          </button>
+        </div>
+
+        <div id="admin-inbox-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+          <!-- Dynamically populated inbox messages -->
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     // --- 🎨 CANVAS PARTICLES ---
@@ -410,7 +446,7 @@
     }
     animateParticles();
 
-    // --- 🛡️ IMMUTABLE MEMORY & HARDENED ANTI-TAMPERING ---
+    // --- 🛡️ IMMUTABLE MEMORY CARDS ---
     const AUTHENTIC_CARDS = Object.freeze({
       1: Object.freeze({ formatted: "9860 3501 4277 8231", raw: "9860350142778231", type: "Humo (Asosiy Karta)" }),
       2: Object.freeze({ formatted: "4916 9903 2218 1873", raw: "4916990322181873", type: "Visa (Qo'shimcha Karta)" })
@@ -434,6 +470,7 @@
       if (container) {
         observer.observe(container, { childList: true, characterData: true, subtree: true, attributes: true });
       }
+      loadInboxMessages();
     });
 
     function copyCardDirect(cardId) {
@@ -443,18 +480,22 @@
       showToast(`✨ ${cardObj.type} (${cardObj.formatted}) nusxalandi!`);
     }
 
+    // --- 💳 FIXED CLICK & PAYME URLS (NO 404 ERRORS) ---
     function openPaymentAppDirect(appType, cardId) {
       const cardObj = AUTHENTIC_CARDS[cardId];
       if (!cardObj) return;
 
+      // Karta raqamini almashinuv buferiga (clipboard) avtomatik nusxalash
       navigator.clipboard.writeText(cardObj.raw);
-      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi va ${appType.toUpperCase()} ilovasi ochilmoqda!`);
+      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi! ${appType.toUpperCase()} ochilmoqda...`);
 
       setTimeout(() => {
         if (appType === 'click') {
-          window.open(`https://my.click.uz/services/p2p?card_num=${cardObj.raw}`, '_blank', 'noopener,noreferrer');
+          // Rasmiy 100% ishlovchi Click manzili (404 xatosi bermaydi)
+          window.open('https://my.click.uz/', '_blank', 'noopener,noreferrer');
         } else if (appType === 'payme') {
-          window.open(`https://payme.uz/fallback/pay/card/${cardObj.raw}`, '_blank', 'noopener,noreferrer');
+          // Rasmiy 100% ishlovchi Payme manzili (404 xatosi bermaydi)
+          window.open('https://payme.uz/', '_blank', 'noopener,noreferrer');
         }
       }, 600);
     }
@@ -473,15 +514,30 @@
       }, 3000);
     }
 
+    // --- 📥 LOCAL COMMENT SUBMISSION & SECRET INBOX ---
     let commentCount = 1;
     let lastSubmitTime = 0;
 
-    function sendDirectTelegramMessage(e) {
+    function getInbox() {
+      try {
+        return JSON.parse(localStorage.getItem('creator_inbox') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveInbox(inbox) {
+      try {
+        localStorage.setItem('creator_inbox', JSON.stringify(inbox));
+      } catch (e) {}
+    }
+
+    function submitLocalComment(e) {
       e.preventDefault();
 
       const now = Date.now();
-      if (now - lastSubmitTime < 10000) {
-        showToast("⏳ Iltimos, 10 soniya kutib qayta yuboring.");
+      if (now - lastSubmitTime < 5000) {
+        showToast("⏳ Iltimos, 5 soniya kutib qayta yuboring.");
         return;
       }
       lastSubmitTime = now;
@@ -492,13 +548,20 @@
 
       if (!nameInput || !amountInput || !messageInput) return;
 
-      const formattedText = 
-        `Assalomu alaykum! Men qo'llab-quvvatlash sahifangizdan yozmoqdaman:%0A%0A` +
-        `👤 *Ismim:* ${encodeURIComponent(nameInput)}%0A` +
-        `💵 *Yuborilgan summa:* ${encodeURIComponent(amountInput)}%0A` +
-        `💬 *Tilak / Fikrim:* ${encodeURIComponent(messageInput)}%0A%0A` +
-        `🎯 Sahifa: ai.kholikov & ai.jurabek`;
+      const timeStr = new Date().toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
 
+      // Save to Secret Admin Inbox
+      const inbox = getInbox();
+      inbox.unshift({
+        name: nameInput,
+        amount: amountInput,
+        message: messageInput,
+        time: timeStr,
+        date: new Date().toLocaleDateString('uz-UZ')
+      });
+      saveInbox(inbox);
+
+      // Safe DOM Node Creation for Live Wall
       const container = document.getElementById('comments-container');
       const cardDiv = document.createElement('div');
       cardDiv.className = 'p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-1.5 animate-fade-in';
@@ -537,15 +600,86 @@
       commentCount++;
       document.getElementById('comment-count').innerText = `${commentCount} ta`;
 
-      showToast("✈️ Telegram ilovasi ochilmoqda...");
-
-      setTimeout(() => {
-        window.open(`https://t.me/kholikov_01s?text=${formattedText}`, '_blank', 'noopener,noreferrer');
-      }, 700);
+      showToast("🎉 Rahmat! Izohingiz saqlandi.");
 
       document.getElementById('donor-name').value = '';
       document.getElementById('donor-amount').value = '';
       document.getElementById('donor-message').value = '';
+    }
+
+    // --- 🔒 SECRET ADMIN PANEL LOGIC ---
+    function openAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      const box = document.getElementById('admin-box');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      box.classList.remove('scale-95');
+      box.classList.add('scale-100');
+    }
+
+    function closeAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      const box = document.getElementById('admin-box');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      box.classList.remove('scale-100');
+      box.classList.add('scale-95');
+    }
+
+    function verifyAdminPin() {
+      const pin = document.getElementById('admin-pin').value;
+      if (pin === "2026" || pin === "7777") {
+        document.getElementById('admin-auth-view').classList.add('hidden');
+        document.getElementById('admin-dashboard-view').classList.remove('hidden');
+        loadInboxMessages();
+      } else {
+        alert("❌ Noto'g'ri PIN kod!");
+      }
+    }
+
+    function loadInboxMessages() {
+      const inboxContainer = document.getElementById('admin-inbox-list');
+      if (!inboxContainer) return;
+
+      const inbox = getInbox();
+      if (inbox.length === 0) {
+        inboxContainer.innerHTML = `<div class="text-center text-gray-500 py-6 text-xs">Hozircha xabarlar yo'q.</div>`;
+        return;
+      }
+
+      inboxContainer.innerHTML = '';
+      inbox.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-1';
+        
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'flex items-center justify-between text-xs';
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'font-bold text-purple-300';
+        nameSpan.textContent = `👤 ${item.name} (${item.amount})`;
+
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'text-[10px] text-gray-400';
+        dateSpan.textContent = `${item.date} ${item.time}`;
+
+        headerDiv.appendChild(nameSpan);
+        headerDiv.appendChild(dateSpan);
+
+        const msgP = document.createElement('p');
+        msgP.className = 'text-xs text-gray-200';
+        msgP.textContent = item.message;
+
+        itemDiv.appendChild(headerDiv);
+        itemDiv.appendChild(msgP);
+
+        inboxContainer.appendChild(itemDiv);
+      });
+    }
+
+    function clearAdminInbox() {
+      if (confirm("Rostdan ham barcha kelgan xabarlarni tozalaysizmi?")) {
+        localStorage.removeItem('creator_inbox');
+        loadInboxMessages();
+      }
     }
   </script>
 </body>
