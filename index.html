@@ -303,34 +303,21 @@
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <h2 class="font-space text-lg font-bold text-white flex items-center space-x-2">
           <span>💖 Qo'llab-quvvatlaganlar Xabarlari</span>
-          <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30" id="comment-count">1 ta</span>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30" id="comment-count">0 ta</span>
         </h2>
       </div>
 
       <div id="comments-container" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-sm text-purple-300 flex items-center space-x-2">
-              <span>👤 Jasur R.</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-normal">100,000 so'm</span>
-            </span>
-            <span class="text-[11px] text-gray-500">Bugun 18:20</span>
-          </div>
-          <p class="text-xs text-gray-300 leading-relaxed">
-            "ai.kholikov va ai.jurabek kontentlaringiz juda sifatli! Ijodingizga omad tilayman."
-          </p>
+        <div id="empty-comments-msg" class="text-center py-8 text-gray-500 text-xs italic">
+          Hali xabarlar mavjud emas. Birinchi bo'lib tilak qoldiring! 🌟
         </div>
       </div>
     </div>
 
-    <!-- Footer & Secret Admin Button -->
-    <footer class="text-center text-xs text-gray-500 pt-4 pb-8 space-y-3">
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-500 pt-4 pb-8 space-y-2">
       <div class="flex items-center justify-center space-x-2 text-[11px] text-gray-400">
         <span>🛡️ Protected Official Hub</span>
-        <span>•</span>
-        <a href="admin.html" class="text-purple-400 hover:text-purple-300 font-semibold underline cursor-pointer flex items-center space-x-1">
-          <span>🔒 Maxsus Admin Panel & Full Analytics (Egalari uchun)</span>
-        </a>
       </div>
       <div>© 2026 ai.kholikov & ai.jurabek. All Rights Reserved.</div>
     </footer>
@@ -543,7 +530,7 @@
     }
 
     // --- 📥 LOCAL COMMENT SUBMISSION & SECRET INBOX ---
-    let commentCount = 1;
+    let commentCount = 0;
     let lastSubmitTime = 0;
 
     function getInbox() {
@@ -591,6 +578,8 @@
 
       // Safe DOM Node Creation for Live Wall
       const container = document.getElementById('comments-container');
+      const emptyMsg = document.getElementById('empty-comments-msg');
+      if (emptyMsg) emptyMsg.remove();
       const cardDiv = document.createElement('div');
       cardDiv.className = 'p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 space-y-1.5 animate-fade-in';
 
