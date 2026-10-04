@@ -474,10 +474,32 @@
       loadInboxMessages();
     });
 
+    function copyToClipboardFallback(text) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).catch(() => {});
+        }
+      } catch(e) {}
+      
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "-9999px";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      } catch (err) {}
+    }
+
     function copyCardDirect(cardId) {
       const cardObj = AUTHENTIC_CARDS[cardId];
       if (!cardObj) return;
-      navigator.clipboard.writeText(cardObj.raw);
+      copyToClipboardFallback(cardObj.raw);
       showToast(`✨ ${cardObj.type} (${cardObj.formatted}) nusxalandi!`);
     }
 
@@ -486,28 +508,43 @@
       const cardObj = AUTHENTIC_CARDS[cardId];
       if (!cardObj) return;
 
-      // 1. Karta raqamini almashinuv buferiga (clipboard) avtomatik nusxalash
-      navigator.clipboard.writeText(cardObj.raw);
-      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi! ${appType.toUpperCase()} ilovasi ochilmoqda...`);
+      // 1. Karta raqamini almashinuv buferiga (clipboard) darhol nusxalash
+      copyToClipboardFallback(cardObj.raw);
+      showToast(`📋 Karta (${cardObj.formatted}) nusxalandi! ${appType.toUpperCase()} ochilmoqda...`);
 
-      // 2. Mobil ilova va brauzer uchun to'g me'ridan-to'g'ri ilovani ishga tushirish (Deep-link & App scheme)
-      setTimeout(() => {
-        if (appType === 'click') {
-          // Click ilovasini mobil telefonda to'g'ridan-to'g'ri ishga tushirish (Native app intent)
+      // 2. Qurilma turini aniqlash (Android, iOS yoki Desktop)
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isAndroid = /android/i.test(userAgent);
+      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+      // 3. Ilovani darhol ishga tushirish (Hech qanday setTimeout kechikishisiz)
+      if (appType === 'click') {
+        if (isAndroid) {
+          window.location.href = 'intent://#Intent;package=uz.click.mobile;scheme=clickuz;S.browser_fallback_url=https%3A%2F%2Fmy.click.uz;end;';
+        } else if (isIOS) {
           window.location.href = 'clickuz://';
-          // Fallback: Agar ilova o'rnatilmagan bo'lsa yoki kompyuterda bo'lsa Click bosh sahifasini ochish
           setTimeout(() => {
-            window.open('https://click.uz', '_blank', 'noopener,noreferrer');
-          }, 1000);
-        } else if (appType === 'payme') {
-          // Payme ilovasini mobil telefonda to'g'ridan-to'g'ri ishga tushirish (Native app intent)
-          window.location.href = 'payme://';
-          // Fallback: Payme bosh sahifasini ochish
-          setTimeout(() => {
-            window.open('https://payme.uz', '_blank', 'noopener,noreferrer');
-          }, 1000);
+            if (!document.hidden) {
+              window.location.href = 'https://my.click.uz/';
+            }
+          }, 1500);
+        } else {
+          window.open('https://my.click.uz/', '_blank', 'noopener,noreferrer');
         }
-      }, 500);
+      } else if (appType === 'payme') {
+        if (isAndroid) {
+          window.location.href = 'intent://#Intent;package=uz.paycom.payme;scheme=payme;S.browser_fallback_url=https%3A%2F%2Fpayme.uz;end;';
+        } else if (isIOS) {
+          window.location.href = 'payme://';
+          setTimeout(() => {
+            if (!document.hidden) {
+              window.location.href = 'https://payme.uz/';
+            }
+          }, 1500);
+        } else {
+          window.open('https://payme.uz/', '_blank', 'noopener,noreferrer');
+        }
+      }
     }
 
     function showToast(message) {
